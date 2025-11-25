@@ -11,17 +11,37 @@ function msg(text, type = "") {
   m.className = type ? type : "";
 }
 
+function getElement(id) {
+  return document.getElementById(id);
+}
+
+function getValue(id) {
+  const el = getElement(id);
+  return el && "value" in el ? el.value.trim() : "";
+}
+
+function setValue(id, value) {
+  const el = getElement(id);
+  if (el && "value" in el && typeof value === "string") {
+    el.value = value;
+  }
+}
+
 function getFormData() {
   return {
-    jobTitle: document.getElementById("jobTitle").value.trim(),
-    company: document.getElementById("company").value.trim(),
-    applicationDate: document.getElementById("applicationDate").value.trim(),
-    status: document.getElementById("status").value,
-    location: document.getElementById("location").value.trim(),
-    jobBoard: document.getElementById("jobBoard").value,
-    link: document.getElementById("link").value.trim(),
+    jobTitle: getValue("jobTitle"),
+    company: getValue("company"),
+    applicationDate: getValue("applicationDate"),
+    status: getValue("status"),
+    location: getValue("location"),
+    jobBoard: getValue("jobBoard"),
+    link: getValue("link"),
     // we don't set interview at application time
     interviewScheduled: "no",
+    notes: getValue("notes"),
+    cvVersionUsed: getValue("cvVersionUsed"),
+    coverLetterUsed: getValue("coverLetterUsed"),
+    jdLink: getValue("jdLink"),
 	generateCoverLetter: generateCoverLetter
   };
 }
@@ -29,36 +49,38 @@ function getFormData() {
 function setFormData(data) {
   if (!data) return;
   if (data.jobTitle !== undefined) {
-    document.getElementById("jobTitle").value = data.jobTitle;
+    setValue("jobTitle", data.jobTitle);
   }
   if (data.company !== undefined) {
-    document.getElementById("company").value = data.company;
+    setValue("company", data.company);
   }
   if (data.applicationDate !== undefined) {
-    document.getElementById("applicationDate").value = data.applicationDate;
+    setValue("applicationDate", data.applicationDate);
   }
   if (data.status !== undefined) {
-    document.getElementById("status").value = data.status;
+    setValue("status", data.status);
   }
   if (data.location !== undefined) {
-    document.getElementById("location").value = data.location;
+    setValue("location", data.location);
   }
   if (data.jobBoard !== undefined) {
-    document.getElementById("jobBoard").value = data.jobBoard;
+    setValue("jobBoard", data.jobBoard);
   }
   if (data.link !== undefined) {
-    document.getElementById("link").value = data.link;
+    setValue("link", data.link);
   }
   if (data.notes !== undefined) {
-    document.getElementById("notes").value = data.notes;
+    setValue("notes", data.notes);
   }
   if (data.cvVersionUsed !== undefined) {
-    document.getElementById("cvVersionUsed").value = data.cvVersionUsed;
+    setValue("cvVersionUsed", data.cvVersionUsed);
   }
   if (data.coverLetterUsed !== undefined) {
-    document.getElementById("coverLetterUsed").value = data.coverLetterUsed;
+    setValue("coverLetterUsed", data.coverLetterUsed);
   }
   if (data.jdLink !== undefined) {
+    setValue("jdLink", data.jdLink);
+  }
   if (data.generateCoverLetter) {
     generateCoverLetter = true;
     const clStatus = getElement("cl-status");
@@ -92,8 +114,7 @@ function loadDraftOrInit(tab) {
   currentTabUrl = tab.url || "";
   draftKey = currentTabUrl ? "draft_" + currentTabUrl : null;
 
-  const urlField = document.getElementById("link");
-  urlField.value = currentTabUrl;
+  setValue("link", currentTabUrl);
 
   chrome.storage.local.get(draftKey || "", (res) => {
     const draft = draftKey ? res[draftKey] : null;
@@ -103,10 +124,10 @@ function loadDraftOrInit(tab) {
       setFormData(draft);
     } else {
       // No draft: initialize from tab
-      document.getElementById("jobTitle").value = tab.title || "";
+      setValue("jobTitle", tab.title || "");
       const guessedBoard = guessJobBoardFromUrl(currentTabUrl);
       if (guessedBoard) {
-        document.getElementById("jobBoard").value = guessedBoard;
+        setValue("jobBoard", guessedBoard);
       }
     }
   });
@@ -143,6 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  const saveBtn = getElement("save-btn");
   const btnText = saveBtn.querySelector(".btn-text");
 
   saveBtn.addEventListener("click", async () => {
