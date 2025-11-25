@@ -255,3 +255,14 @@ button .spinner {
   color: var(--text-muted);
   text-align: right;
 }
+
+.sheet-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+.sheet-link:hover {
+  text-decoration: underline;
+}
