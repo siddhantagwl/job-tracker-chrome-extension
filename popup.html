@@ -82,15 +82,16 @@
       <fieldset>
         <legend>Docs & Notes</legend>
 
-        <div class="row">
-          <label>
+        <label>
             CV Version Used
             <input id="cvVersionUsed" type="text" placeholder="CV_v3_backend" />
-          </label>
-          <label>
-            Cover Letter Used
-            <input id="coverLetterUsed" type="text" placeholder="CL_v2_berlin" />
-          </label>
+        </label>
+
+        <div class="cl-actions-row">
+            <button id="generate-cl-btn" type="button" class="secondary-btn">
+                Generate cover letter doc on save
+            </button>
+            <span id="cl-status" class="cl-status"></span>
         </div>
 
         <label>

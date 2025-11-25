@@ -3,6 +3,7 @@ const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwKdwvMCktafHy7x9Ax
 let currentTabUrl = "";
 let draftKey = null;
 let isSaving = false;
+let generateCoverLetter = false;
 
 function msg(text, type = "") {
   const m = document.getElementById("message");
@@ -21,10 +22,7 @@ function getFormData() {
     link: document.getElementById("link").value.trim(),
     // we don't set interview at application time
     interviewScheduled: "no",
-    notes: document.getElementById("notes").value.trim(),
-    cvVersionUsed: document.getElementById("cvVersionUsed").value.trim(),
-    coverLetterUsed: document.getElementById("coverLetterUsed").value.trim(),
-    jdLink: document.getElementById("jdLink").value.trim()
+	generateCoverLetter: generateCoverLetter
   };
 }
 
@@ -61,7 +59,12 @@ function setFormData(data) {
     document.getElementById("coverLetterUsed").value = data.coverLetterUsed;
   }
   if (data.jdLink !== undefined) {
-    document.getElementById("jdLink").value = data.jdLink;
+  if (data.generateCoverLetter) {
+    generateCoverLetter = true;
+    const clStatus = getElement("cl-status");
+    if (clStatus) {
+      clStatus.textContent = "CL will be generated on save ✓";
+    }
   }
 }
 
@@ -127,7 +130,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  const saveBtn = document.getElementById("save-btn");
+  // Generate CL button
+  const clBtn = getElement("generate-cl-btn");
+  const clStatus = getElement("cl-status");
+  if (clBtn) {
+    clBtn.addEventListener("click", () => {
+      generateCoverLetter = true;
+      if (clStatus) {
+        clStatus.textContent = "CL will be generated on save ✓";
+      }
+      saveDraft();
+    });
+  }
+
   const btnText = saveBtn.querySelector(".btn-text");
 
   saveBtn.addEventListener("click", async () => {

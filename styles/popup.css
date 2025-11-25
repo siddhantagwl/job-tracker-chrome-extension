@@ -266,3 +266,39 @@ button .spinner {
 .sheet-link:hover {
   text-decoration: underline;
 }
+
+.cl-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+
+.secondary-btn {
+  padding: 5px 10px;
+  font-size: 11px;
+  background: rgba(37, 99, 235, 0.18);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.08s ease, box-shadow 0.08s ease;
+  white-space: nowrap;
+}
+
+.secondary-btn:hover {
+  background: rgba(37, 99, 235, 0.3);
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.4);
+  transform: translateY(-0.5px);
+}
+
+.secondary-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.cl-status {
+  font-size: 11px;
+  color: var(--text-muted);
+}
