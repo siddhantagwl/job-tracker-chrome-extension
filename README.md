@@ -69,9 +69,13 @@ Handles:
 ### **Storage**
 Used only for draft form data.
 
+---
+
 ## 🧑‍💻 Author
 
 **Siddhant Agarwal**, Software Engineer
+
+---
 
 ## 🪪 License
 
