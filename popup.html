@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Save Job</title>
+  <link rel="stylesheet" href="styles/popup.css" />
+</head>
+<body>
+  <div class="shell">
+    <div class="container">
+      <div class="header">
+        <div class="title-wrap">
+          <div class="badge">💼</div>
+          <div>
+            <h3>Save Job</h3>
+            <p class="subtitle">Track this application in your sheet</p>
+          </div>
+        </div>
+      </div>
+
+      <fieldset>
+        <legend>Basic Info</legend>
+
+        <label class="required">
+          Job Title
+          <input id="jobTitle" type="text" />
+        </label>
+
+        <div class="row">
+          <label class="required">
+            Company
+            <input id="company" type="text" />
+          </label>
+          <label>
+            Location
+            <input id="location" type="text" placeholder="Berlin, Remote, etc." />
+          </label>
+        </div>
+
+        <div class="row">
+          <label>
+            Application Date
+            <input id="applicationDate" type="date" />
+          </label>
+          <label>
+            Status
+            <select id="status">
+              <option value="saved">Saved</option>
+              <option value="applied">Applied</option>
+              <option value="interview">Interview</option>
+              <option value="offer">Offer</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="row">
+          <label>
+            Job Board
+            <select id="jobBoard">
+              <option value="">(Select)</option>
+              <option value="LinkedIn">LinkedIn</option>
+              <option value="Indeed">Indeed</option>
+              <option value="Company Website">Company Website</option>
+              <option value="Greenhouse">Greenhouse</option>
+              <option value="Lever">Lever</option>
+              <option value="Other">Other</option>
+            </select>
+          </label>
+          <label class="required">
+            Link to Listing
+            <input id="link" type="text" readonly />
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Docs & Notes</legend>
+
+        <div class="row">
+          <label>
+            CV Version Used
+            <input id="cvVersionUsed" type="text" placeholder="CV_v3_backend" />
+          </label>
+          <label>
+            Cover Letter Used
+            <input id="coverLetterUsed" type="text" placeholder="CL_v2_berlin" />
+          </label>
+        </div>
+
+        <label>
+          JD Link
+          <input id="jdLink" type="text" placeholder="Link to JD (Notion/Doc)" />
+        </label>
+
+        <label>
+          Notes
+          <textarea
+            id="notes"
+            placeholder="Recruiter, salary, stack, weird red flags..."
+          ></textarea>
+        </label>
+      </fieldset>
+
+      <div class="footer">
+        <button id="save-btn">
+          <span class="btn-text">Save to Sheet</span>
+        </button>
+        <div id="message"></div>
+        <div class="hint">Draft auto-saves for this page.</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
