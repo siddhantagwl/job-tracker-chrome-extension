@@ -302,3 +302,15 @@ button .spinner {
   font-size: 11px;
   color: var(--text-muted);
 }
+
+.hidden-inline {
+  display: none;
+  margin-top: 4px;
+  font-size: 11px;
+}
+
+label > input#appliedViaOther,
+label > input#discoverySourceOther {
+  width: 100%;
+  box-sizing: border-box;
+}

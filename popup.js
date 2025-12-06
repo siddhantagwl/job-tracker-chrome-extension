@@ -34,7 +34,8 @@ function getFormData() {
     applicationDate: getValue("applicationDate"),
     status: getValue("status"),
     location: getValue("location"),
-    jobBoard: getValue("jobBoard"),
+    appliedVia: getSourceValue("appliedVia", "appliedViaOther"),
+    discoverySource: getSourceValue("discoverySource", "discoverySourceOther"),
     link: getValue("link"),
     // we don't set interview at application time
     interviewScheduled: "no",
@@ -63,8 +64,11 @@ function setFormData(data) {
   if (data.location !== undefined) {
     setValue("location", data.location);
   }
-  if (data.jobBoard !== undefined) {
-    setValue("jobBoard", data.jobBoard);
+  if (data.appliedVia !== undefined) {
+    setSourceValue("appliedVia", "appliedViaOther", data.appliedVia);
+  }
+  if (data.discoverySource !== undefined) {
+    setSourceValue("discoverySource", "discoverySourceOther", data.discoverySource);
   }
   if (data.link !== undefined) {
     setValue("link", data.link);
@@ -127,10 +131,63 @@ function loadDraftOrInit(tab) {
       setValue("jobTitle", tab.title || "");
       const guessedBoard = guessJobBoardFromUrl(currentTabUrl);
       if (guessedBoard) {
-        setValue("jobBoard", guessedBoard);
+        setValue("appliedVia", guessedBoard);
       }
     }
   });
+}
+
+function getSourceValue(selectId, otherId) {
+  const selectEl = document.getElementById(selectId);
+  const otherEl = document.getElementById(otherId);
+
+  if (!selectEl) return "";
+  const val = selectEl.value;
+
+  if (val === "Other") {
+    return otherEl && otherEl.value.trim() ? otherEl.value.trim() : "Other";
+  }
+
+  return val;
+}
+
+
+function setupOtherToggle(selectId, otherId) {
+  const selectEl = document.getElementById(selectId);
+  const otherEl = document.getElementById(otherId);
+  if (!selectEl || !otherEl) return;
+
+  const update = () => {
+    if (selectEl.value === "Other") {
+      otherEl.style.display = "block";
+    } else {
+      otherEl.style.display = "none";
+      otherEl.value = "";
+    }
+  };
+
+  selectEl.addEventListener("change", update);
+  // Initialize on load
+  update();
+}
+
+function setSourceValue(selectId, otherId, value) {
+  const selectEl = document.getElementById(selectId);
+  const otherEl = document.getElementById(otherId);
+  if (!selectEl) return;
+
+  const options = Array.from(selectEl.options).map(o => o.value);
+  if (options.includes(value) && value !== "Other") {
+    selectEl.value = value;
+    if (otherEl) {
+      otherEl.style.display = "none";
+      otherEl.value = "";
+    }
+  } else if (otherEl) {
+    selectEl.value = "Other";
+    otherEl.style.display = "block";
+    otherEl.value = value || "";
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -150,6 +207,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+  setupOtherToggle("appliedVia", "appliedViaOther");
+  setupOtherToggle("discoverySource", "discoverySourceOther");
 
   // Generate CL button
   const clBtn = getElement("generate-cl-btn");

@@ -60,11 +60,35 @@
         </div>
 
         <div class="row">
+
           <label>
-            Job Board
-            <select id="jobBoard">
+              First seen on
+              <select id="discoverySource">
+                <option value="">(Select)</option>
+                <option value="LinkedIn feed">LinkedIn feed</option>
+                <option value="LinkedIn message">LinkedIn message</option>
+                <option value="Friend referral">Friend referral</option>
+                <option value="Company career page">Company career page</option>
+                <option value="Job newsletter">Job newsletter</option>
+                <option value="Slack or Discord">Slack or Discord</option>
+                <option value="Twitter">Twitter or X</option>
+                <option value="Other">Other</option>
+              </select>
+              <input
+                id="discoverySourceOther"
+                type="text"
+                placeholder="Custom source"
+                class="hidden-inline"
+              />
+          </label>
+
+          <label>
+            Applied via
+            <select id="appliedVia">
               <option value="">(Select)</option>
+              <option value="email">email</option>
               <option value="ashbyhq">ashbyhq</option>
+              <option value="Join">Join</option>
               <option value="LinkedIn">LinkedIn</option>
               <option value="Indeed">Indeed</option>
               <option value="Company Website">Company Website</option>
@@ -72,12 +96,21 @@
               <option value="Lever">Lever</option>
               <option value="Other">Other</option>
             </select>
+            <input
+              id="appliedViaOther"
+              type="text"
+              placeholder="Custom source"
+              class="hidden-inline"
+            />
           </label>
-          <label class="required">
-            Link to Listing
-            <input id="link" type="text" readonly />
-          </label>
+
         </div>
+
+        <label class="required">
+          Link to Listing
+          <input id="link" type="text" readonly />
+        </label>
+
       </fieldset>
 
       <fieldset>
